@@ -1,0 +1,15 @@
+<div class="flex-child">
+    <div id="feed">
+        {% for uno in tweet_feed%}
+        <div id="tweet">
+            <div id="header">
+                <a id="user" href="/user/{{ uno.author.id }}">
+                    @{{uno.author}}
+                </a>
+                <a id="date" href="/tweet/{{ uno.id }}">{{ uno.date }}</a>
+            </div>
+            <div id="text"><a href="/tweet/{{ uno.id }}">{{uno.body}}</a></div>
+        </div>
+        {% endfor %}
+    </div>
+</div>

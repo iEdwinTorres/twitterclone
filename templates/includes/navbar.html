@@ -1,0 +1,28 @@
+{% if user.is_authenticated %}
+<nav id="nav">
+    <div class="container">
+        <ul>
+            <li>
+                <a href="/"><button>Home</button></a>
+            </li>
+            <li>
+                <a href="/newtweet/"><button>Tweet!</button></a>
+            </li>
+            <li>
+                <a href="/notifications/{{ MYNOTIFICATIONS }}">
+                    <button>Notifications: {{ notification_count }}</button>
+                </a>
+            </li>
+            <li>
+                <a href="/user/{{ user.id }}"><button>My Profile</button></a>
+            </li>
+            <li>
+                <a href="/logout/"><button id="red">Log Out</button></a>
+            </li>
+        </ul>
+    </div>
+</nav>
+{% else %}
+<nav id="nav">
+</nav>
+{% endif %}

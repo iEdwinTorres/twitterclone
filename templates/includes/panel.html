@@ -1,0 +1,18 @@
+<div class="flex-child">
+    {% if request.path != "/" %}
+    <div id="panel">
+        <h3 id="stats">{{ target_user }}'s Stats</h3>
+        <p>Tweets: {{ user_tweets.count }}</p>
+        <p>Following: {{ target_user.following.count }}</p>
+        {% if target_user != user %}
+        {% if target_user in following %}
+        <a href="/unfollow/{{target_user.id}}/"><button id="red">Unfollow</button></a>
+        {% else %}
+        <a href="/follow/{{target_user.id}}/"><button id="follow">Follow</button></a>
+        {% endif %}
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+
+

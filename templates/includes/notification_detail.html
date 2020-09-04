@@ -1,0 +1,15 @@
+<div class="container" id="flex-child">
+    <div id="feed">
+        <div id="tweet">
+            {% for uno in new_notifications %}
+            <div id="header">
+                <a id="user" href="/user/{{ uno.author.id }}/">
+                    @{{uno.author}}
+                </a>
+                <a id="date" href="/tweet/{{ uno.id }}">{{ uno.date }}</a>
+            </div>
+            <div id="text"><a href="/tweet/{{ uno.id }}">{{uno.body}}</a></div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

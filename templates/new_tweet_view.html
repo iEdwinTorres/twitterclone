@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'index.css' %}" />
+        <title>New Tweet</title>
+    </head>
+    <body>
+        <div>{% include "./includes/navbar.html" %}</div>
+        <div class="container"><h1>TWITTER CLONE | New Tweet</h1></div>
+        <div class="container" id="flex">
+            <div id="form">
+                <form id="new" action="" method="post">
+                    {% csrf_token %} {{ form.as_p }}
+                    <input id="input" type="submit" value="Tweet!" />
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
