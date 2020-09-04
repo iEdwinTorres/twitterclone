@@ -6,7 +6,7 @@ from tweet.models import Tweet
 from notification.models import Notification
 
 
-@login_required
+@login_required(login_url="login")
 def notification_view(request):
     notifications = Notification.objects.filter(n_receiver=request.user)
     notification_count = 0
@@ -28,9 +28,12 @@ def notification_view(request):
 
 
 def notification_new_count(request):
-    notifications = Notification.objects.filter(n_receiver=request.user)
-    notification_count = 0
-    for notification in notifications:
-        if notification.notification_read == False:
-            notification_count += 1
+    if request.user.is_authenticated:
+        notifications = Notification.objects.filter(n_receiver=request.user)
+        notification_count = 0
+        for notification in notifications:
+            if notification.notification_read == False:
+                notification_count += 1
+    else:
+        notification_count = 0
     return notification_count

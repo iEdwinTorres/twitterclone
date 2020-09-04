@@ -6,7 +6,7 @@ from tweet.models import Tweet
 from notification import views
 
 
-@login_required
+@login_required(login_url="login")
 def index_view(request):
     user_tweets = Tweet.objects.filter(author=request.user)
     following_tweets = Tweet.objects.filter(author__in=request.user.following.all())
@@ -24,7 +24,10 @@ def user_view(request, user_id):
     target_user = TwitterUser.objects.filter(id=user_id).first()
     user_tweets = Tweet.objects.filter(author=target_user).order_by("-date")
     notification_count = views.notification_new_count(request)
-    following = request.user.following.all()
+    if request.user.is_authenticated:
+        following = request.user.following.all()
+    else:
+        following = []
     return render(
         request,
         "user_view.html",
@@ -41,11 +44,11 @@ def follow(request, user_id):
     current_user = request.user
     follow = TwitterUser.objects.filter(id=user_id).first()
     current_user.following.add(follow)
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "redirect_if_referer_not_found"))
 
 
 def unfollow(request, user_id):
     current_user = request.user
     follow = TwitterUser.objects.filter(id=user_id).first()
     current_user.following.remove(follow)
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "redirect_if_referer_not_found"))

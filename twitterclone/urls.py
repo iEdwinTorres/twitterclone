@@ -23,7 +23,7 @@ from notification import views as notification
 
 urlpatterns = [
     path('', twitteruser.index_view, name="homepage"),
-    path('login/', authentication.login_view),
+    path('login/', authentication.login_view, name="login"),
     path('signup/', authentication.signup_view),
     path('logout/', authentication.logout_view),
     path('user/<int:user_id>/', twitteruser.user_view),

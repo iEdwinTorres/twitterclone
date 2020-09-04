@@ -13,7 +13,7 @@
         <div class="container" id="flex">
             <div>{% include "./includes/tweet_detail.html" %}</div>
         </div>
-
+{% if user.is_authenticated %}
         <div class="container"><button href="#" onclick="GoBackWithRefresh();return false;">Go Back</button></div>
         <script>
             function GoBackWithRefresh(event) {
@@ -24,5 +24,6 @@
                 }
             }
         </script>
+{% endif %}
     </body>
 </html>

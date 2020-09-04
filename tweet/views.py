@@ -9,7 +9,7 @@ from notification.views import notification_new_count
 import re
 
 
-@login_required
+@login_required(login_url="login")
 def new_tweet_view(request):
     notification_count = notification_new_count(request)
     if request.method == "POST":
@@ -44,13 +44,13 @@ def new_tweet_view(request):
 
 def tweet_view(request, tweet_id):
     tweet_detail = Tweet.objects.filter(id=tweet_id).first()
-    notification_count = notification_new_count(request)
+    # notification_count = notification_new_count(request)
     return render(
         request,
         "tweet_view.html",
         {
             "tweet_detail": tweet_detail,
             "panel": "Use Info Panel",
-            "notification_count": notification_count,
+            # "notification_count": notification_count,
         },
     )
