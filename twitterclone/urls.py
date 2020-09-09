@@ -22,13 +22,13 @@ from notification import views as notification
 
 
 urlpatterns = [
-    path('', twitteruser.index_view, name="homepage"),
-    path('login/', authentication.login_view, name="login"),
-    path('signup/', authentication.signup_view),
+    path('', twitteruser.IndexView.as_view(), name="homepage"),
+    path('login/', authentication.LoginView.as_view(), name="login"),
+    path('signup/', authentication.SignUpView.as_view()),
     path('logout/', authentication.logout_view),
-    path('user/<int:user_id>/', twitteruser.user_view),
-    path('tweet/<int:tweet_id>/', tweet.tweet_view),
-    path('newtweet/', tweet.new_tweet_view),
+    path('user/<int:user_id>/', twitteruser.UserView.as_view()),
+    path('tweet/<int:tweet_id>/', tweet.TweetView.as_view()),
+    path('newtweet/', tweet.NewTweetFormView.as_view()),
     path("follow/<int:user_id>/", twitteruser.follow),
     path("unfollow/<int:user_id>/", twitteruser.unfollow),
     path("notifications/", notification.notification_view),
