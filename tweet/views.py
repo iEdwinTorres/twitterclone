@@ -1,18 +1,19 @@
 from django.shortcuts import render, HttpResponseRedirect, reverse
-from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.decorators import login_required
 from tweet.forms import TweetForm
-from tweet.models import Tweet
-from twitteruser.models import TwitterUser
+from .models import Tweet, TwitterUser
 from notification.models import Notification
 from notification.views import notification_new_count
+from django.views.generic import TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 import re
 
 
-@login_required(login_url="login")
-def new_tweet_view(request):
-    notification_count = notification_new_count(request)
-    if request.method == "POST":
+class NewTweetFormView(LoginRequiredMixin, TemplateView):
+    def get(self, request):
+        form = TweetForm()
+        return render(request, "new_tweet_view.html", {"form": form})
+
+    def post(self, request):
         form = TweetForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
@@ -30,27 +31,18 @@ def new_tweet_view(request):
                             tracked_tweet=new_tweet,
                         )
             return HttpResponseRedirect(reverse("homepage"))
-
-    form = TweetForm()
-    return render(
-        request,
-        "new_tweet_view.html",
-        {
-            "form": form,
-            "notification_count": notification_count,
-        },
-    )
+        else:
+            return render(request, "new_tweet_view.html", {"form": form})
 
 
-def tweet_view(request, tweet_id):
-    tweet_detail = Tweet.objects.filter(id=tweet_id).first()
-    # notification_count = notification_new_count(request)
-    return render(
-        request,
-        "tweet_view.html",
-        {
-            "tweet_detail": tweet_detail,
-            "panel": "Use Info Panel",
-            # "notification_count": notification_count,
-        },
-    )
+class TweetView(TemplateView):
+    def get(self, request, tweet_id):
+        tweet_detail = Tweet.objects.filter(id=tweet_id).first()
+        return render(
+            request,
+            "tweet_view.html",
+            {
+                "tweet_detail": tweet_detail,
+                "panel": "Use Info Panel",
+            },
+        )
